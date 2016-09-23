@@ -14,7 +14,7 @@
             function inputfield () {
                 var prefixwidth = document.getElementById("userprefix").offsetWidth;
                 var inputwidth = document.getElementById("input").offsetWidth;
-                document.getElementById("inputtext").style.width = inputwidth - prefixwidth - 50;
+                document.getElementById("inputtext").style.width = inputwidth - prefixwidth - 60;
             }
             function output (texttodisplay) {
                 var outputtextbefore = document.getElementById("outputtext").innerHTML;
@@ -262,4 +262,3 @@
 
         </script>
     </body>
-
