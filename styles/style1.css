@@ -1,0 +1,40 @@
+#output {
+    width: calc(100% - 30px);
+    height: 90%;
+    border: outset 15px #999999;
+    border-bottom: none;
+    position: relative;
+    overflow: hidden;
+}
+
+#inputtext {
+    border: none;
+}
+
+#userprefix {
+    float: left;
+}
+
+.jsos {
+    font-family: "Ubuntu Mono";
+    color: white;
+    font-size: 20px;
+    background-color: black;
+}
+
+#input {
+    border: outset 15px #999999;
+    padding: 0.5em;
+    border-top: none;
+}
+
+#outputtext {
+    position: absolute;
+    bottom: 0;
+    left: 0.5em;
+}
+
+#versionnumber, #version {
+    float: left;
+}
+
