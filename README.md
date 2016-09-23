@@ -1,1 +1,2 @@
-# .jsauce
+# jsauce.greenscreener.tk
+A Ubuntu terminal emulator in JavaScrit.
