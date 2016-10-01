@@ -241,7 +241,7 @@
         </div></div>
     <form id="input" class="jsos" onSubmit="formsubmit(); return false;">
         <div id="userprefix" class="jsos"></div>
-        <input type="text" name="input" id="inputtext" class="jsos">
+        <input type="text" name="input" id="inputtext" autocomplete="off" class="jsos">
         </form>
     <script>
         document.getElementById("versionnumber").innerHTML = version;
