@@ -135,7 +135,7 @@
                         commhist++;
 
                     }
-                    output(commhist);
+                  
 
                 }
 
@@ -292,7 +292,7 @@
 
         } else if (0<? echo $_GET["debug"]; ?> == 2) {
             newuser = 0;
-            formsubmit("game ecology");s
+            formsubmit("game ecology");
 
 
         }
