@@ -180,6 +180,8 @@
                         case "game":
                             rungame();
                             break;
+                        case "":
+                            break;
 
 
                         default:
