@@ -55,6 +55,11 @@
                 output(text);
                 return text;
                 }
+            function escapeHtml (str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+                }
             function stopwatch1 () {
                 if (usedstopwatch == 0) {
                     usedstopwatch++;
@@ -114,11 +119,11 @@
                 }
                 if (key == 38 || key == 40) {
                     if (commhist == 1 && enter == 0) {
-                        var input = document.getElementById("inputtext").value;
+                        var input = escapeHtml(document.getElementById("inputtext").value);
                         commands.push(input);
                         enter = 1;
                     } else if (commhist == 1) {
-                        var input = document.getElementById("inputtext").value;
+                        var input = escapeHtml(document.getElementById("inputtext").value);
                         var i = commands.length - 1;
                         commands[i] = input;
                     }
@@ -135,7 +140,7 @@
                         commhist++;
 
                     }
-                  
+
 
                 }
 
@@ -150,7 +155,7 @@
                     ecologyformsubmit();
                     return false;
                 }
-                var input = document.getElementById("inputtext").value;
+                var input = escapeHtml(document.getElementById("inputtext").value);
                 if (debuginput != null) {
                     input = debuginput;
                 }
