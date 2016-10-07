@@ -249,7 +249,9 @@
                                 }
                             }
                     }
-                commands.push(input);
+                if (input != "") {
+                     commands.push(input);
+                 }
                 return false;
             }
 
