@@ -145,7 +145,9 @@
                 }
 
             }
-
+            function hasWhiteSpace(s) {
+                return s.indexOf(' ') >= 0;
+            }
 
 
 
@@ -254,7 +256,7 @@
                                 }
                             }
                     }
-                if (input != "") {
+                if (input != "" && !hasWhiteSpace(input)) {
                      commands.push(input);
                  }
                 return false;
