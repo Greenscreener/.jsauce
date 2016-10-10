@@ -11,6 +11,9 @@
             var usedstopwatch = 0;
             var comm;
             var version = "1.7";
+            var commands = [];
+            var commhist = 1;
+            var enter = 0;
             function inputfield () {
                 var prefixwidth = document.getElementById("userprefix").offsetWidth;
                 var inputwidth = document.getElementById("input").offsetWidth;
@@ -20,12 +23,10 @@
                 var outputtextbefore = document.getElementById("outputtext").innerHTML;
                 document.getElementById("outputtext").innerHTML = outputtextbefore + texttodisplay + "<br>";
                 return outputtextbefore;
-
             }
             function getinput () {
                 return input;
             }
-
             function help () {
                 output("The list of all commands:");
                 output("");
@@ -37,10 +38,9 @@
                 output("<b>&lt;num&gt; &lt;op&gt; &lt;num&gt;</b>&nbsp;&nbsp; Number (space) Operator (space) Number - Display the result of an equation.");
                 output("<b>theme &lt;opt&gt; &lt;col&gt; </b>&nbsp;Change the colors of the terminal. Options: -b - change background color, -t change text color, -d revert to default. Color has to be specificated in a css valid color code(#fff, #ffffff, white, rgb(255,255,255)");
                 output("<b>datetime</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Display current date and time.");
-
                 output("");
                 output("PLESE NOTE: This is in an early development stage and is ment mostly for fun. ");
-                output("To request new commands, go <a href='https://github.com/Greenscreener/.jsauce/issues'>here</a> and create a new issue.");
+                 output("To request new commands, go <a href='https://github.com/Greenscreener/.jsauce/issues'>here</a> and create a new issue.");
             }
             function echo () {
                 var comlen = comm.lenght;
@@ -51,6 +51,11 @@
                     }
                 output(text);
                 return text;
+                }
+            function escapeHtml (str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
                 }
             function stopwatch1 () {
                 if (usedstopwatch == 0) {
@@ -88,12 +93,9 @@
                         for (i = 0; i < x.length; i++) {
                             x[i].style.color = "white";
                             }
-
-
                     } else {
                         output("Invalid option.");
                     }
-
                 }
             function rungame () {
                 switch (comm[1]) {
@@ -104,17 +106,44 @@
                         output("Unknown game.");
                 }
             }
-
-
-
-
-
+            function keydown (event) {
+                var key = event.keyCode;
+                if (key == 13) {
+                    enter = 0;
+                }
+                if (key == 38 || key == 40) {
+                    if (commhist == 1 && enter == 0) {
+                        var input = escapeHtml(document.getElementById("inputtext").value);
+                        commands.push(input);
+                        enter = 1;
+                    } else if (commhist == 1) {
+                        var input = escapeHtml(document.getElementById("inputtext").value);
+                        var i = commands.length - 1;
+                        commands[i] = input;
+                    }
+                    if (key == 38 && commhist <= commands.length) {
+                        commhist++;
+                    } else if (key == 40 && commhist > 1) {
+                        commhist--;
+                    }
+                    var commandslength = commands.length - commhist;
+                    document.getElementById("inputtext").value = commands[commandslength];
+                    if (commands.length <= commhist) {
+                        commhist--;
+                    } else if (commhist <= 0) {
+                        commhist++;
+                    }
+                }
+            }
+            function hasWhiteSpace(s) {
+                return s.indexOf(' ') >= 0;
+            }
             function formsubmit (debuginput) {
                 if (ecologyrunning == 1) {
                     ecologyformsubmit();
                     return false;
                 }
-                var input = document.getElementById("inputtext").value;
+                var input = escapeHtml(document.getElementById("inputtext").value);
                 if (debuginput != null) {
                     input = debuginput;
                 }
@@ -162,13 +191,11 @@
                             } else {
                                 hours = d.getHours();
                             }
-
                             if (d.getMinutes() < 10) {
                                 minutes = "0" + d.getMinutes();
                             } else {
                                 minutes = d.getMinutes();
                             }
-
                             if (d.getSeconds() < 10) {
                                 seconds = "0" + d.getSeconds();
                             } else {
@@ -182,8 +209,6 @@
                             break;
                         case "":
                             break;
-
-
                         default:
                             if (!isNaN(comm[0]) && !isNaN(comm[2])) {
                                 var op1 = +comm[0];
@@ -213,11 +238,11 @@
                                 }
                             }
                     }
-
+                if (input != "" && !hasWhiteSpace(input)) {
+                     commands.push(input);
+                 }
                 return false;
             }
-
-
             </script>
         <meta charset="utf-8">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet">
@@ -239,9 +264,8 @@
 
         </div>
         <div id="version">Version:&nbsp;</div><div id="versionnumber"></div> <br><br>
-  It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLESE NOTE: </b>JSAUCE is in an early development stage and is meant mostly for fun. <br> To start please select your username. Warning: A lot of special characters may cause strange things.<br><a href="https://github.com/Greenscreener/.jsauce/">Source Code on GitHub</a> <br />
-        </div></div>
-    <form id="input" class="jsos" onSubmit="formsubmit(); return false;">
+It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLESE NOTE: </b>JSAUCE is in an early development stage and is meant mostly for fun. <br> To start please select your username. Warning: A lot of special characters may cause strange things.<br><a href="https://github.com/Greenscreener/.jsauce/">Source Code on GitHub</a> <br />        </div></div>
+    <form id="input" class="jsos" onSubmit="formsubmit(); return false;" onkeydown="keydown(event);">
         <div id="userprefix" class="jsos"></div>
         <input type="text" name="input" id="inputtext" autocomplete="off" class="jsos">
         </form>
@@ -252,16 +276,10 @@
         if (0<? echo $_GET["debug"]; ?> == 1) {
             newuser = 0;
             formsubmit("help");
-
-
         } else if (0<? echo $_GET["debug"]; ?> == 2) {
             newuser = 0;
             formsubmit("game ecology");
-
-
         }
-
-
         </script>
         <a href="//github.com/Greenscreener/.jsauce"> <img src="github.png" style="text-decoration: none; box-shadow: 0px 0px 5px black" height="50px"> </a>
     </body>
