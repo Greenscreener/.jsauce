@@ -11,9 +11,6 @@
             var usedstopwatch = 0;
             var comm;
             var version = "1.7";
-            var commands = [];
-            var commhist = 1;
-            var enter = 0;
             function inputfield () {
                 var prefixwidth = document.getElementById("userprefix").offsetWidth;
                 var inputwidth = document.getElementById("input").offsetWidth;
@@ -43,7 +40,7 @@
 
                 output("");
                 output("PLESE NOTE: This is in an early development stage and is ment mostly for fun. ");
-                output("To request new commands, please contact me on this email adress: <a href='email://honzikcernoh@gmail.com'>honzikcernoh@gmail.com</a>");
+                output("To request new commands, go <a href='https://github.com/Greenscreener/.jsauce/issues'>here</a> and create a new issue.");
             }
             function echo () {
                 var comlen = comm.lenght;
@@ -54,11 +51,6 @@
                     }
                 output(text);
                 return text;
-                }
-            function escapeHtml (str) {
-                var div = document.createElement('div');
-                div.appendChild(document.createTextNode(str));
-                return div.innerHTML;
                 }
             function stopwatch1 () {
                 if (usedstopwatch == 0) {
@@ -112,42 +104,7 @@
                         output("Unknown game.");
                 }
             }
-            function keydown (event) {
-                var key = event.keyCode;
-                if (key == 13) {
-                    enter = 0;
-                }
-                if (key == 38 || key == 40) {
-                    if (commhist == 1 && enter == 0) {
-                        var input = escapeHtml(document.getElementById("inputtext").value);
-                        commands.push(input);
-                        enter = 1;
-                    } else if (commhist == 1) {
-                        var input = escapeHtml(document.getElementById("inputtext").value);
-                        var i = commands.length - 1;
-                        commands[i] = input;
-                    }
-                    if (key == 38 && commhist <= commands.length) {
-                        commhist++;
-                    } else if (key == 40 && commhist > 1) {
-                        commhist--;
-                    }
-                    var commandslength = commands.length - commhist;
-                    document.getElementById("inputtext").value = commands[commandslength];
-                    if (commands.length <= commhist) {
-                        commhist--;
-                    } else if (commhist <= 0) {
-                        commhist++;
 
-                    }
-
-
-                }
-
-            }
-            function hasWhiteSpace(s) {
-                return s.indexOf(' ') >= 0;
-            }
 
 
 
@@ -157,7 +114,7 @@
                     ecologyformsubmit();
                     return false;
                 }
-                var input = escapeHtml(document.getElementById("inputtext").value);
+                var input = document.getElementById("inputtext").value;
                 if (debuginput != null) {
                     input = debuginput;
                 }
@@ -256,9 +213,7 @@
                                 }
                             }
                     }
-                if (input != "" && !hasWhiteSpace(input)) {
-                     commands.push(input);
-                 }
+
                 return false;
             }
 
@@ -284,9 +239,9 @@
 
         </div>
         <div id="version">Version:&nbsp;</div><div id="versionnumber"></div> <br><br>
-  It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLESE NOTE: </b>JSAUCE is in an early development stage and is meant mostly for fun. <br> To start please select your username. Warning: A lot of special characters may cause strange things.<br>
+  It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLESE NOTE: </b>JSAUCE is in an early development stage and is meant mostly for fun. <br> To start please select your username. Warning: A lot of special characters may cause strange things.<br><a href="https://github.com/Greenscreener/.jsauce/">Source Code on GitHub</a> <br />
         </div></div>
-    <form id="input" class="jsos" onSubmit="formsubmit(); return false;" onkeydown="keydown(event);">
+    <form id="input" class="jsos" onSubmit="formsubmit(); return false;">
         <div id="userprefix" class="jsos"></div>
         <input type="text" name="input" id="inputtext" autocomplete="off" class="jsos">
         </form>
