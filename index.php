@@ -280,7 +280,7 @@
         <span>&#160;&quot;mmm&quot;&#160;&#160;&quot;mmm#&quot;&#160;#&#160;&#160;&#160;&#160;#&#160;&quot;mmmm&quot;&#160;&#160;&quot;mmm&quot;&#160;#mmmmm</span><br />
         <span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</span><br />
 
-        JavaScript Authentic Ubuntu Computer Environment<br>
+        JavaScript Authentic Ubuntu Computer Emulator<br>
 
         </div>
         <div id="version">Version:&nbsp;</div><div id="versionnumber"></div> <br><br>
