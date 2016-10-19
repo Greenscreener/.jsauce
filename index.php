@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="ecology.js">
+        <script src="jquery.js">
         </script>
         <script>
             var prefix = "<b>@JSAUCE</b>:~$";
@@ -10,7 +10,7 @@
             var stopwatch = 0;
             var usedstopwatch = 0;
             var comm;
-            var version = "1.7";
+            var version = "1.9";
             var commands = [];
             var commhist = 1;
             var enter = 0;
@@ -27,6 +27,7 @@
             function getinput () {
                 return input;
             }
+
             function help () {
                 output("The list of all commands:");
                 output("");
@@ -216,6 +217,9 @@
                                 switch (comm[1]) {
                                     case "+":
                                         var vysl = op1 + op2;
+                                        vysl *= 100000000;
+                                        vysl = Math.round(vysl);
+                                        vysl /= 100000000;
                                         output(vysl);
                                         break;
                                     case "-":
