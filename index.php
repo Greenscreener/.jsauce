@@ -3,6 +3,7 @@
         <script src="jquery.js">
         </script>
         <script>
+            var placeholder1;
             var prefix = "<b>@JSAUCE</b>:~$";
             var ecologyrunning = 0;
             var newuser = 1;
@@ -14,6 +15,9 @@
             var commands = [];
             var commhist = 1;
             var enter = 0;
+            var bckgrnd;
+            var frgrnd;
+            var placeholder2;
             function inputfield () {
                 var prefixwidth = document.getElementById("userprefix").offsetWidth;
                 var inputwidth = document.getElementById("input").offsetWidth;
@@ -24,6 +28,28 @@
                 document.getElementById("outputtext").innerHTML = outputtextbefore + texttodisplay + "<br>";
                 return outputtextbefore;
             }
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
             function getinput () {
                 return input;
             }
@@ -76,18 +102,22 @@
                 if (comm[1] == "-t") {
                     var x = document.getElementsByClassName("jsos");
                     var i;
+                    var frgrnd = comm[2];
                     for (i = 0; i < x.length; i++) {
                         x[i].style.color = comm[2];
                         }
                     } else if (comm[1] == "-b") {
                         var x = document.getElementsByClassName("jsos");
                         var i;
+                        var bckgrnd = comm[2];
                         for (i = 0; i < x.length; i++) {
                             x[i].style.backgroundColor = comm[2];
                             }
                     } else if (comm[1] == "-d") {
                         var x = document.getElementsByClassName("jsos");
                         var i;
+                        bckgrnd = "black";
+                        frgrnd = "white";
                         for (i = 0; i < x.length; i++) {
                             x[i].style.backgroundColor = "black";
                             }
@@ -138,6 +168,20 @@
             }
             function hasWhiteSpace(s) {
                 return s.indexOf(' ') >= 0;
+            }
+            function savecookies () {
+                var save = 0;
+                var variables = ""
+                for (var name in this) {
+                        if (name == "placeholder2") {save = 0;}
+                        if (save == 1) {
+                            value = window[name];
+                            setCookie(name, value, 9999999);
+                            variables += name + "\n";
+                        }
+                        if (name == "placeholder1") {save = 1;}
+                }
+                return variables;
             }
             function formsubmit (debuginput) {
                 if (ecologyrunning == 1) {
@@ -244,6 +288,7 @@
                     }
                 if (input != "" && !hasWhiteSpace(input)) {
                      commands.push(input);
+                     savecookies();
                  }
                 return false;
             }
