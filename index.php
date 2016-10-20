@@ -65,6 +65,7 @@
                 output("<b>&lt;num&gt; &lt;op&gt; &lt;num&gt;</b>&nbsp;&nbsp; Number (space) Operator (space) Number - Display the result of an equation.");
                 output("<b>theme &lt;opt&gt; &lt;col&gt; </b>&nbsp;Change the colors of the terminal. Options: -b - change background color, -t change text color, -d revert to default. Color has to be specificated in a css valid color code(#fff, #ffffff, white, rgb(255,255,255)");
                 output("<b>datetime</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Display current date and time.");
+                output("<b>reboot</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Remove all cookie data, resets everything - themes, command history etc.");
                 output("");
                 output("PLESE NOTE: This is in an early development stage and is ment mostly for fun. ");
                  output("To request new commands, go <a href='https://github.com/Greenscreener/.jsauce/issues'>here</a> and create a new issue.");
@@ -98,22 +99,22 @@
                 document.getElementById("stopwatch").innerHTML = stopwatch + " seconds";
                 setTimeout(stopwatch2, 1000);
             }
-            function theme () {
-                if (comm[1] == "-t") {
+            function theme (com1, com2) {
+                if (com1 == "-t") {
                     var x = document.getElementsByClassName("jsos");
                     var i;
-                    var frgrnd = comm[2];
+                    frgrnd = com2;
                     for (i = 0; i < x.length; i++) {
-                        x[i].style.color = comm[2];
+                        x[i].style.color = com2;
                         }
-                    } else if (comm[1] == "-b") {
+                    } else if (com1 == "-b") {
                         var x = document.getElementsByClassName("jsos");
                         var i;
-                        var bckgrnd = comm[2];
+                        bckgrnd = com2;
                         for (i = 0; i < x.length; i++) {
-                            x[i].style.backgroundColor = comm[2];
+                            x[i].style.backgroundColor = com2;
                             }
-                    } else if (comm[1] == "-d") {
+                    } else if (com1 == "-d") {
                         var x = document.getElementsByClassName("jsos");
                         var i;
                         bckgrnd = "black";
@@ -132,7 +133,11 @@
                 switch (comm[1]) {
                     case "ecology":
                         ecology();
-                        break;
+                        if (input != "" && !hasWhiteSpace(input)) {
+             commands.push(input);
+
+         }
+        savecookies();
                     default:
                         output("Unknown game.");
                 }
@@ -183,6 +188,22 @@
                 }
                 return variables;
             }
+            function loadcookies () {
+                var save = 0;
+                var variables = ""
+                for (var name in this) {
+                        if (name == "placeholder2") {save = 0;}
+                        if (save == 1) {
+                            window[name] = getCookie(name);
+                            variables += name + "\n";
+                        }
+                        if (name == "placeholder1") {save = 1;}
+                }
+                commands = commands.split(",");
+                theme("-b", bckgrnd);
+                theme("-t", frgrnd);
+                return variables;
+            }
             function formsubmit (debuginput) {
                 if (ecologyrunning == 1) {
                     ecologyformsubmit();
@@ -211,23 +232,48 @@
                     switch (comm[0]) {
                         case "help":
                             help();
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+
+                            }
+                            savecookies();
                             break;
                         case "echo":
-                        output(comm1[1])
+                        output(comm1[1]);
+                        if (input != "" && !hasWhiteSpace(input)) {
+                            commands.push(input);
+                        }
+                        savecookies();
                             break;
                         case "rm":
                             if (comm[1] == "-rf" && comm[2] == "/") {
                                 document.write("");
                                 }
+                                if (input != "" && !hasWhiteSpace(input)) {
+                                    commands.push(input);
+                                }
+                                savecookies();
                             break;
                         case "whoami":
                             output(username);
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
                             break;
                         case "stopwatch":
                             stopwatch1();
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
                             break;
                         case "theme":
-                            theme();
+                            theme(comm[1],comm[2]);
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
                             break;
                         case "datetime":
                             var d = new Date();
@@ -248,11 +294,42 @@
                             }
                             var o = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear() + " " + hours + ":" + minutes + ":" + seconds;
                             output(o);
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
                             break;
                         case "game":
                             rungame();
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
                             break;
                         case "":
+                            if (input != "" && !hasWhiteSpace(input)) {
+                                commands.push(input);
+                            }
+                            savecookies();
+                            break;
+                        case "reboot":
+                            prefix = "<b>@JSAUCE</b>:~$";
+                            ecologyrunning = 0;
+                            newuser = 1;
+                            username = "";
+                            stopwatch = 0;
+                            usedstopwatch = 0;
+                            comm = "";
+                            version = "1.9";
+                            commands = [];
+                            commhist = 1;
+                            enter = 0;
+                            bckgrnd = "";
+                            frgrnd = "";
+                            savecookies();
+                            loadcookies();
+                            document.getElementById("versionnumber").innerHTML = version;
+                            document.getElementById("userprefix").innerHTML = prefix;
                             break;
                         default:
                             if (!isNaN(comm[0]) && !isNaN(comm[2])) {
@@ -265,31 +342,56 @@
                                         vysl = Math.round(vysl);
                                         vysl /= 100000000;
                                         output(vysl);
+                                        if (input != "" && !hasWhiteSpace(input)) {
+                                            commands.push(input);
+                                        }
+                                        savecookies();
                                         break;
                                     case "-":
                                         var vysl = op1 - op2;
                                         output(vysl);
+                                        if (input != "" && !hasWhiteSpace(input)) {
+                                            commands.push(input);
+                                        }
+                                        savecookies();
                                         break;
                                     case "*":
                                         var vysl = op1 * op2;
                                         output(vysl);
+                                        if (input != "" && !hasWhiteSpace(input)) {
+                                            commands.push(input);
+                                        }
+                                        savecookies();
                                         break;
                                     case "/":
                                         var vysl = op1 / op2;
                                         output(vysl);
+                                        if (input != "" && !hasWhiteSpace(input)) {
+                                            commands.push(input);
+                                        }
+                                        savecookies();
                                         break;
                                     default:
                                         output("Unknown operator.");
+                                        if (input != "" && !hasWhiteSpace(input)) {
+                                            commands.push(input);
+                                        }
+                                        savecookies();
                                     }
                             } else {
                                 output("Unknown command. Type 'help' for the list of all commands.");
+                                if (input != "" && !hasWhiteSpace(input)) {
+                                    commands.push(input);
+                                }
+                                savecookies();
                                 }
                             }
                     }
                 if (input != "" && !hasWhiteSpace(input)) {
                      commands.push(input);
-                     savecookies();
+
                  }
+                savecookies();
                 return false;
             }
             </script>
@@ -319,6 +421,7 @@ It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLE
         <input type="text" name="input" id="inputtext" autocomplete="off" class="jsos">
         </form>
     <script>
+        loadcookies();
         document.getElementById("versionnumber").innerHTML = version;
         document.getElementById("userprefix").innerHTML = prefix;
         inputfield();
