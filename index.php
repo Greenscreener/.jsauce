@@ -421,7 +421,9 @@ It is based on the terminal of Ubuntu and made entirely in JavaScript.<br><b>PLE
         <input type="text" name="input" id="inputtext" autocomplete="off" class="jsos">
         </form>
     <script>
-        loadcookies();
+        if (getCookie("newuser") != ""){
+            loadcookies();
+        }
         document.getElementById("versionnumber").innerHTML = version;
         document.getElementById("userprefix").innerHTML = prefix;
         inputfield();
